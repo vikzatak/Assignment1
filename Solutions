@@ -1,0 +1,89 @@
+1. Write a program which accepts a sequence of comma separated 4 digit binary numbers as its input
+and then check whether they are divisible by 5 or not. The numbers that are divisible by 5 are to be
+printed in a comma separated sequence.
+Example:
+0100,0011,1010,1001
+Then the output should be:
+1010
+
+2. A website requires the users to input username and password to register. Write a program to check
+the validity of password input by users.
+Following are the criteria for checking the password:
+1. At least 1 letter between [a-z]
+2. At least 1 number between [0-9]
+1. At least 1 letter between [A-Z]
+3. At least 1 character from [$#@]
+4. Minimum length of transaction password: 6
+5. Maximum length of transaction password: 12
+Your program should accept a sequence of comma separated passwords and will check them
+according to the above criteria. Passwords that match the criteria are to be printed, each separated by a
+comma.
+
+3. You are required to write a program to sort the (name, age, height) tuples by ascending order where
+name is string, age and height are numbers. The tuples are input by console. The sort criteria is:
+1. Sort based on name;
+2. Then sort based on age;
+3. Then sort by score.
+The priority is that name > age > score.
+If the following tuples are given as input to the program:
+Tom,19,80
+John,20,90
+Jony,17,91
+Jony,17,93
+Json,21,85
+Then, the output of the program should be:
+[('John', '20', '90'), ('Jony', '17', '91'), ('Jony', '17', '93'), ('Json', '21', '85'), ('Tom', '19', '80')]
+--------------------------------------------------------------------------------------------------------------------------
+#Solution no. 1
+
+binary = []                #declaring empty list
+#using of the list comprehension optimizes the code
+#using list comprehension to take multiple input values separated by comma ","
+num = [x for x in input("Enter four digit binary number: ").split(',')] 
+#split() also converts the input into string and saves them in the list
+for i in num:              #reading values from the list one by one
+    x = int(i,2)           #converting each binary value to decimal value
+    if not x%5:            #checking for the complete divisibility by 5
+        binary.append(i)   #adding the original value to the empty list,"binary"
+print(','.join(binary))     #joining the values of list on "," and printing the list.
+
+
+
+#Solution no. 2
+
+import re          #importing re(regular expression) module for using search function meant for string.
+valid = []         #declaring empty list
+items=[x for x in input().split(',')] #taking multiple comma separated input converted as string by split()
+for i in items:                    #reading values from the list one by one
+    if len(i)<6 or len(i)>12:      #checking for the desired length 
+        continue                   #if true jumps for next iteration
+    elif not re.search("[a-z]",i): #checking for a-z alphabets using re.search()
+        continue                   #if true jumps for next iteration
+    elif not re.search("[0-9]",i): #checking for 0-9 digits as string value as re.search() searches for string values.
+        continue                   #if true jumps for next iteration
+    elif not re.search("[A-Z]",i): #checking for A-Z alphabets using re.search()
+        continue                   #if true jumps for next iteration
+    elif not re.search("[$#@]",i): #checking for special characters using re.search()
+        continue                   #if true jumps for next iteration
+    elif re.search("\s",i):        #additinaly,checking for spaces present at any position using re.search()   
+        continue                   #if true jumps for next iteration
+    valid.append(i)                #appending the valid password to the list,"valid"
+print (",".join(valid))            #joining the values of list on "," and printing the list.
+
+
+
+#Solution no. 3
+
+from operator import itemgetter    #importing operator module to use itemgetter function
+l = []                             #declaring empty list
+while True:                        #running infinite loop
+    s =input()                     #taking input
+    if not s:                      #if there is no input
+        break                      #terminates the loop and jumps out of the loop.
+    l.append(tuple(s.split(",")))  #converting each set of input into tuple separated by "," within the least.
+
+print(sorted(l, key=itemgetter(0,1,2))) #In place sorting.
+#itemgetter() return a callable object that fetches item from its operand
+#"key=itemgetter(0,1,2)",this do multi level sorting in the order i.e. name > age > score.
+
+
